@@ -28,7 +28,7 @@ async def main():
                                                          puppyify(v0.1.0)     
                                                          https://puppyify.cn/doc/   
                                                                                     '''
-    uri = os.environ.get('POSTER_URI_PREFIX', f'http://127.0.0.1:8888/')
+    uri = os.environ.get('PUPPYIFY_URI', f'http://127.0.0.1:8888/')
     print(banner)
     app = make_app()
     app.listen(port=8888, address='0.0.0.0')
