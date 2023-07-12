@@ -79,6 +79,8 @@ async def main():
     app = make_app()
     app.listen(port=8888, address='0.0.0.0')
     print('Listening at ', uri)
+    C.init()
+
     await asyncio.Event().wait()
 
 

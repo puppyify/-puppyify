@@ -49,10 +49,3 @@ def init():
 
 def check_token(token):
     return TOKEN == token
-
-
-def __load(tk=init()):
-    ...
-
-
-__load()
