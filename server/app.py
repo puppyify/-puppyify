@@ -2,9 +2,31 @@ import asyncio
 import os
 
 import tornado
+from tornado.web import RequestHandler
+import R
 
 
-class MainHandler(tornado.web.RequestHandler):
+class BaseHandler(RequestHandler):
+
+    def set_default_headers(self) -> None:
+        origin_url = self.request.headers.get('Origin')
+        if not origin_url: origin_url = '*'
+        self.set_header('Access-Control-Allow-Methods', 'POST, PUT, DELETE, GET, OPTIONS')
+        self.set_header('Puppyify', '0.1.0')
+        self.set_header('Access-Control-Allow-Credentials', 'true')
+        self.set_header('Access-Control-Allow-Origin', origin_url)
+        self.set_header('Access-Control-Allow-Headers', 'x-requested-with,token,Content-type')
+
+    def options(self):
+        self.set_status(200)
+        self.finish()
+
+    def json(self, r: R):
+        self.set_header('Content-Type', 'application/json;charset=UTF-8')
+        self.write(r.json())
+
+
+class MainHandler(BaseHandler):
     def get(self):
         self.write("Hello, world")
 
