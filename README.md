@@ -1,7 +1,7 @@
 # 关于Puppyify
 
 <p>
-  <a href="https://gitee.com/puppyify/puppyify" class="link gitee-link" target="_blank"><img style="max-width: 100px;" alt="gitee Repo stars" src="https://gitee.com/psoho/puppyify/badge/star.svg"></a>
+  <a href="https://github.com/puppyify/puppyify" class="link github-link" target="_blank"><img style="max-width: 100px;" alt="GitHub Repo stars" src="https://img.shields.io/github/stars/puppyify/puppyify?style=social"></a>
   <img alt="csharp" src="https://img.shields.io/badge/language-python-yellow.svg">
   <img alt="csharp" src="https://img.shields.io/badge/language-vue-brightgreen.svg">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-blue.svg">
