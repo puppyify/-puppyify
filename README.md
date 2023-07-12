@@ -27,10 +27,10 @@ Puppyify是一个持续集成工具，从此告别繁琐的Jenkins。
 提供方便的docker镜像
 
 ```bash
-docker run -it --name puppyify -p 8000:8000 puppyify/puppyify
+docker run -it --name puppyify -p 8888:8888 puppyify/puppyify
 ```
 
-打开浏览器，访问 **[http://127.0.0.1:8000](http://127.0.0.1:8000)**，开启轻松、快乐构建之旅。
+打开浏览器，访问 **[http://127.0.0.1:8888](http://127.0.0.1:8888)**，开启轻松、快乐构建之旅。
 
 
 # 授权协议
