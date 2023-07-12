@@ -1,9 +1,12 @@
 import asyncio
+import json
 import os
 from os.path import join, dirname
 
 from tornado.web import RequestHandler, StaticFileHandler, Application
 import R, C
+
+PUPPYIFY_VERSION = '0.1.0'
 
 
 class BaseHandler(RequestHandler):
@@ -12,7 +15,7 @@ class BaseHandler(RequestHandler):
         origin_url = self.request.headers.get('Origin')
         if not origin_url: origin_url = '*'
         self.set_header('Access-Control-Allow-Methods', 'POST, PUT, DELETE, GET, OPTIONS')
-        self.set_header('Puppyify', '0.1.0')
+        self.set_header('Puppyify', PUPPYIFY_VERSION)
         self.set_header('Access-Control-Allow-Credentials', 'true')
         self.set_header('Access-Control-Allow-Origin', origin_url)
         self.set_header('Access-Control-Allow-Headers', 'x-requested-with,token,Content-type')
@@ -54,10 +57,17 @@ class MainHandler(BaseAuthHandler):
         self.write("Hello, world")
 
 
+class InfoHandler(BaseAuthHandler):
+
+    def get(self):
+        self.json(R.ok().add('version', PUPPYIFY_VERSION))
+
+
 def make_app():
     return Application([
         ('/', MainHandler),
-        (r'/(.*)$', StaticFileHandler, {"path": join(dirname(__file__), 'static'), "default_filename": "index.html"})
+        ('/info', InfoHandler),
+        ('/(.*)$', StaticFileHandler, {"path": join(dirname(__file__), 'static'), "default_filename": "index.html"})
     ])
 
 
