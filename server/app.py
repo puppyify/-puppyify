@@ -1,9 +1,9 @@
 import asyncio
 import os
+from os.path import join, dirname
 
-import tornado
-from tornado.web import RequestHandler
-import R
+from tornado.web import RequestHandler, StaticFileHandler, Application
+import R, C
 
 
 class BaseHandler(RequestHandler):
@@ -26,14 +26,38 @@ class BaseHandler(RequestHandler):
         self.write(r.json())
 
 
-class MainHandler(BaseHandler):
+class BaseAuthHandler(BaseHandler):
+
+    def prepare(self):
+        self.check_token()
+
+    def token(self):
+        t = self.request.headers['token'] if 'token' in self.request.headers else None
+        if not t:
+            t = self.get_argument('token', None)
+        if not t:
+            t = self.get_body_argument('token', None)
+        return t
+
+    def check_token(self):
+        t = self.token()
+        if not t:
+            self.json(R.expire('not token'))
+            return self.finish()
+        if not C.check_token(t):
+            self.json(R.expire())
+            return self.finish()
+
+
+class MainHandler(BaseAuthHandler):
     def get(self):
         self.write("Hello, world")
 
 
 def make_app():
-    return tornado.web.Application([
-        (r"/", MainHandler),
+    return Application([
+        ('/', MainHandler),
+        (r'/(.*)$', StaticFileHandler, {"path": join(dirname(__file__), 'static'), "default_filename": "index.html"})
     ])
 
 
