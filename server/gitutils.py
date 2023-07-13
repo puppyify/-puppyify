@@ -69,5 +69,6 @@ if __name__ == '__main__':
     # 拉取指定分支
     repo.checkout('origin/develop')
 
+    # 仓库信息
     print(repo.info())
     print()

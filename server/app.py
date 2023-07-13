@@ -8,6 +8,7 @@ from tornado.web import RequestHandler, StaticFileHandler, Application
 from gitutils import Repo
 import C
 import R
+from Soft import Executor
 
 PUPPYIFY_VERSION = '0.1.0'
 
@@ -75,22 +76,24 @@ class RepoCheckoutHandler(BaseAuthHandler):
         p = self.get_body_json()
         print(p)
         repo = Repo(p['url'], username=p['username'], password=p['password'])
-
-        # 是否需要切换分支
         if p.get('branch', None):
             print('checkout: branch=' + p['branch'])
             repo.checkout(p['branch'])
-
-        # 智能提示，当前项目类型
-
-
         return self.json(R.ok().add('branch', repo.branch()).add('info', repo.info()))
+
+
+class MavenHandler(BaseAuthHandler):
+
+    def post(self):
+        Executor().maven()
+        return self.json(R.ok())
 
 
 def make_app():
     return Application([
         ('/', MainHandler),
         ('/repo/checkout', RepoCheckoutHandler),
+        ('/mvn', MavenHandler),
         ('/info', InfoHandler),
         ('/(.*)$', StaticFileHandler, {"path": join(dirname(__file__), 'static'), "default_filename": "index.html"})
     ])

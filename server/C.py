@@ -5,9 +5,16 @@ import os
 import sys
 import uuid
 
-PUPPYIFY_PATH = '../puppyify' if not os.getenv("PUPPYIFY_PATH") else os.getenv("PUPPYIFY_PATH")
+# 相对路径变绝对路劲
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+# DEV_PUPPYIFY_PATH = os.path.join(current_dir, '../puppyify')
+
+DEV_PUPPYIFY_PATH = '../puppyify'
+
+PUPPYIFY_PATH = DEV_PUPPYIFY_PATH if not os.getenv("PUPPYIFY_PATH") else os.getenv("PUPPYIFY_PATH")
 WORKSPACE_PATH = f'{PUPPYIFY_PATH}/workspace'
 SOFT_PATH = f'{PUPPYIFY_PATH}/soft'
+LOGS_PATH = f'{PUPPYIFY_PATH}/logs'
 
 
 def mkdirs(path):
@@ -53,9 +60,12 @@ def load_token():
 def init():
     load_token()
     print('TOKEN', TOKEN)
+
     print('PUPPYIFY_PATH', PUPPYIFY_PATH)
     print('WORKSPACE_PATH', WORKSPACE_PATH)
     print('SOFT_PATH', SOFT_PATH)
+    print('LOGS_PATH', LOGS_PATH)
+    mkdirs(LOGS_PATH)
     print()
     print()
 

@@ -12,6 +12,7 @@ services:
       - 8888:8888
     volumes:
       - ../puppyify:/var/puppyify
+      - ../puppyify/caches/m2:/root/.m2
       - ../server:/app
 
 networks:
