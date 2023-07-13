@@ -1,9 +1,9 @@
 import os
 import git
 import shutil
+import C
 
-WORKSPACE_PATH = '../workspace' if not os.getenv("WORKSPACE_PATH") else os.getenv("WORKSPACE_PATH")
-
+WORKSPACE_PATH = C.WORKSPACE_PATH
 
 class Repo():
 

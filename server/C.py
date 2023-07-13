@@ -6,6 +6,11 @@ import sys
 import uuid
 
 
+PUPPYIFY_PATH = '../puppyify' if not os.getenv("PUPPYIFY_PATH") else os.getenv("PUPPYIFY_PATH")
+WORKSPACE_PATH = f'{PUPPYIFY_PATH}/workspace'
+
+
+
 def mkdirs(path):
     if not os.path.exists(path):
         print("mkdirs: path=" + path)
@@ -23,7 +28,7 @@ def code(len=16) -> str:
     return md5(str(uuid.uuid4()), len)
 
 
-def init():
+def load_token():
     global TOKEN
     help_info = """fast.py -t <token>"""
     argv = sys.argv[1:]
@@ -45,6 +50,11 @@ def init():
     if not token:
         print(help_info)
     print('TOKEN', TOKEN)
+
+def init():
+    load_token()
+    print(f'PUPPYIFY_PATH={PUPPYIFY_PATH}')
+    print(f'WORKSPACE_PATH={WORKSPACE_PATH}')
 
 
 def check_token(token):

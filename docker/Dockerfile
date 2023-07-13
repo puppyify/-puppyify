@@ -17,7 +17,7 @@ COPY server/ /app/
 # 安装Python依赖
 RUN pip install --no-cache-dir -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
-ENV WORKSPACE_PATH '/var/puppyify/workspace'
+ENV PUPPYIFY_PATH '/var/puppyify'
 
 EXPOSE 8888
 

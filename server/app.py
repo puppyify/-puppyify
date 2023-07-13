@@ -1,4 +1,5 @@
 import asyncio
+import json
 import os
 from os.path import join, dirname
 
@@ -29,6 +30,9 @@ class BaseHandler(RequestHandler):
     def json(self, r: R):
         self.set_header('Content-Type', 'application/json;charset=UTF-8')
         self.write(r.json())
+
+    def get_body_json(self):
+        return json.loads(self.request.body)
 
 
 class BaseAuthHandler(BaseHandler):
@@ -65,21 +69,28 @@ class InfoHandler(BaseAuthHandler):
         self.json(R.ok().add('version', PUPPYIFY_VERSION))
 
 
-class RepoBranchHandler(BaseAuthHandler):
+class RepoCheckoutHandler(BaseAuthHandler):
 
-    def get(self):
-        url = self.get_argument('url')
-        username = self.get_argument('username')
-        password = self.get_argument('password')
-        print(f'url={url}, username={username}, password={password}')
-        repo = Repo(url, username=username, password=password)
+    def post(self):
+        p = self.get_body_json()
+        print(p)
+        repo = Repo(p['url'], username=p['username'], password=p['password'])
+
+        # 是否需要切换分支
+        if p.get('branch', None):
+            print('checkout: branch=' + p['branch'])
+            repo.checkout(p['branch'])
+
+        # 智能提示，当前项目类型
+
+
         return self.json(R.ok().add('branch', repo.branch()))
 
 
 def make_app():
     return Application([
         ('/', MainHandler),
-        ('/repo/branch', RepoBranchHandler),
+        ('/repo/checkout', RepoCheckoutHandler),
         ('/info', InfoHandler),
         ('/(.*)$', StaticFileHandler, {"path": join(dirname(__file__), 'static'), "default_filename": "index.html"})
     ])
