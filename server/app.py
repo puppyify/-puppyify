@@ -69,8 +69,10 @@ class RepoBranchHandler(BaseAuthHandler):
 
     def get(self):
         url = self.get_argument('url')
-        print(f'url={url}')
-        repo = Repo(url)
+        username = self.get_argument('username')
+        password = self.get_argument('password')
+        print(f'url={url}, username={username}, password={password}')
+        repo = Repo(url, username=username, password=password)
         return self.json(R.ok().add('branch', repo.branch()))
 
 

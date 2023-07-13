@@ -31,6 +31,12 @@ Commit message: "Merge remote-tracking branch 'origin/v_scrm' into v_scrm"
 [WARNING] 'dependencyManagement.dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: com.aliyun:aliyun-java-sdk-sts:jar -> duplicate declaration of version 3.0.0 @ com.gponline:gponline:2.0.0-SNAPSHOT, /var/lib/jenkins/workspace/gray-gupaoedu-api/pom.xml, line 271, column 25
 ```
 
+### 无法签出代码
+
+```bash
+git clone https://myname:mypassword@x.x.x/x/x.git
+```
+
 ## maven构建
 
 ```bash
