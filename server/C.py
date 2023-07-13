@@ -5,10 +5,9 @@ import os
 import sys
 import uuid
 
-
 PUPPYIFY_PATH = '../puppyify' if not os.getenv("PUPPYIFY_PATH") else os.getenv("PUPPYIFY_PATH")
 WORKSPACE_PATH = f'{PUPPYIFY_PATH}/workspace'
-
+SOFT_PATH = f'{PUPPYIFY_PATH}/soft'
 
 
 def mkdirs(path):
@@ -49,12 +48,16 @@ def load_token():
     TOKEN = token
     if not token:
         print(help_info)
-    print('TOKEN', TOKEN)
+
 
 def init():
     load_token()
-    print(f'PUPPYIFY_PATH={PUPPYIFY_PATH}')
-    print(f'WORKSPACE_PATH={WORKSPACE_PATH}')
+    print('TOKEN', TOKEN)
+    print('PUPPYIFY_PATH', PUPPYIFY_PATH)
+    print('WORKSPACE_PATH', WORKSPACE_PATH)
+    print('SOFT_PATH', SOFT_PATH)
+    print()
+    print()
 
 
 def check_token(token):

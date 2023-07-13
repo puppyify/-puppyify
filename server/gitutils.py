@@ -1,15 +1,16 @@
+import json
 import os
 import git
 import shutil
 import C
+from RepoParser import RepoParser
 
-WORKSPACE_PATH = C.WORKSPACE_PATH
 
 class Repo():
 
     def __init__(self, url: str, username=None, password=None):
         name = os.path.splitext(os.path.basename(url))[0]
-        path = f'{WORKSPACE_PATH}/{name}'
+        path = f'{C.WORKSPACE_PATH}/{name}'
         self.path = path
         if os.path.exists(path):
             repo = git.Repo(path)
@@ -51,20 +52,28 @@ class Repo():
             shutil.rmtree(self.path)
         pass
 
+    def parse(self):
+        """
+        解析项目
+        :return:
+        """
+        return RepoParser(self.path)
+
 
 if __name__ == '__main__':
     # repo = Repo('https://github.com/puppyify/puppyify.git')
     repo = Repo('https://git.psoho.cn/demos/demo-spring-boot.git')
-    print(repo.branch())
-
     print(repo.path)
+    print(repo.branch())
 
     # 拉取指定分支
     repo.checkout('origin/develop')
 
-    # url = 'https://git.psoho.cn/demos/demo-spring-boot.git'
-    # remote_url = url.split('//', 1)
-    # username = 'thomas'
-    # password = 'password'
-    # remote_url = f'{remote_url[0]}//{username}:{password}@{remote_url[1]}'
-    # print(remote_url)
+    p = repo.parse()
+    print(p)
+
+    print(p.projects)
+    if p.isMaven():
+        print('Maven')
+        p.mavenInfo()
+    print()

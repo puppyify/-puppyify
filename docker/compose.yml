@@ -11,8 +11,8 @@ services:
     ports:
       - 8888:8888
     volumes:
-      - ./workspace:/var/puppyify/workspace
-      - ../server:/app/
+      - ../puppyify:/var/puppyify
+      - ../server:/app
 
 networks:
  default:
