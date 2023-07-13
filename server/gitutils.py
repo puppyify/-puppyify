@@ -3,7 +3,7 @@ import os
 import git
 import shutil
 import C
-from RepoParser import RepoParser
+from RepoInfo import RepoInfo
 
 
 class Repo():
@@ -52,15 +52,12 @@ class Repo():
             shutil.rmtree(self.path)
         pass
 
-    def parse(self):
+    def info(self):
         """
-        解析项目
+        仓库信息
         :return:
         """
-        return RepoParser(self.path)
-
-    def info(self):
-        return self.parse()
+        return RepoInfo(self.path)
 
 
 if __name__ == '__main__':
@@ -72,11 +69,5 @@ if __name__ == '__main__':
     # 拉取指定分支
     repo.checkout('origin/develop')
 
-    p = repo.parse()
-    print(p)
-
-    print(p.projects)
-    if p.isMaven():
-        print('Maven')
-        p.mavenInfo()
+    print(repo.info())
     print()

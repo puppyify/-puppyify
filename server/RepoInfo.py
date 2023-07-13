@@ -2,7 +2,7 @@ import os
 from collections import defaultdict
 
 
-class RepoParser(dict):
+class RepoInfo(dict):
 
     def __init__(self, directory):
         # 目录路径
@@ -21,9 +21,10 @@ class RepoParser(dict):
             # 添加其他语言类型的映射关系
         }
 
+        # 项目
         project_mapping = {
             'pom.xml': 'maven',
-            'package.json': 'nodejs'
+            'package.json': 'node'
         }
 
         # 遍历目录及其子目录中的文件
@@ -42,45 +43,27 @@ class RepoParser(dict):
 
         # 计算每种语言类型的占比
         total_files = sum(language_counts.values())
-        total_project_files = sum(project_counts.values())
-
         languages = [
             {'type': language_type, 'percent': f'{count / total_files * 100 :.2f}'} for language_type, count in
             language_counts.items()
         ]
+        languages = sorted(languages, key=lambda x: float(x['percent']), reverse=True)
+        self.languages = languages
+        self.language_type = self.languages[0]['type'] if len(self.languages) >= 1 and self.languages[0][
+            'type'] else None
 
+        # 计算项目信息
+        total_project_files = sum(project_counts.values())
         projects = [
             {'type': language_type, 'percent': f'{count / total_project_files * 100 :.2f}'} for language_type, count in
             project_counts.items()
         ]
-
-        # 排序
-        languages = sorted(languages, key=lambda x: float(x['percent']), reverse=True)
-        self.languages = languages
-        self.language_type = self.languages[0]['type'] if len(self.languages) >= 1 and self.languages[0]['type'] else None
-
         projects = sorted(projects, key=lambda x: float(x['percent']), reverse=True)
         self.projects = projects
-
         self.project_type = self.projects[0]['type'] if len(self.projects) >= 1 and self.projects[0]['type'] else None
 
-        dict.__init__(self, languages=languages, projects=projects, project_type=self.project_type, language_type=self.language_type)
-
-    # def __dict__(self):
-    #     return {
-    #         'languages': self.languages,
-    #         'projects': self.projects,
-    #     }
+        dict.__init__(self, languages=languages, projects=projects, project_type=self.project_type,
+                      language_type=self.language_type)
 
     def isMaven(self):
-        return len(self.projects) >= 1 and self.projects[0]['type'] == 'maven'
-
-    def mavenInfo(self):
-
-        pass
-
-
-class MavenParser():
-    """
-    maven解析器
-    """
+        return self.project_type == 'maven'
