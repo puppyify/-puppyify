@@ -84,7 +84,7 @@ class RepoCheckoutHandler(BaseAuthHandler):
         # 智能提示，当前项目类型
 
 
-        return self.json(R.ok().add('branch', repo.branch()))
+        return self.json(R.ok().add('branch', repo.branch()).add('info', repo.info()))
 
 
 def make_app():

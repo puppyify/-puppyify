@@ -57,11 +57,14 @@ class RepoParser(dict):
         # 排序
         languages = sorted(languages, key=lambda x: float(x['percent']), reverse=True)
         self.languages = languages
+        self.language_type = self.languages[0]['type'] if len(self.languages) >= 1 and self.languages[0]['type'] else None
 
         projects = sorted(projects, key=lambda x: float(x['percent']), reverse=True)
         self.projects = projects
 
-        dict.__init__(self, languages=languages, projects=projects)
+        self.project_type = self.projects[0]['type'] if len(self.projects) >= 1 and self.projects[0]['type'] else None
+
+        dict.__init__(self, languages=languages, projects=projects, project_type=self.project_type, language_type=self.language_type)
 
     # def __dict__(self):
     #     return {

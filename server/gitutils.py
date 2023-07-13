@@ -59,6 +59,9 @@ class Repo():
         """
         return RepoParser(self.path)
 
+    def info(self):
+        return self.parse()
+
 
 if __name__ == '__main__':
     # repo = Repo('https://github.com/puppyify/puppyify.git')
