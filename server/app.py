@@ -1,10 +1,12 @@
 import asyncio
-import json
 import os
 from os.path import join, dirname
 
 from tornado.web import RequestHandler, StaticFileHandler, Application
-import R, C
+
+from gitutils import Repo
+import C
+import R
 
 PUPPYIFY_VERSION = '0.1.0'
 
@@ -63,9 +65,19 @@ class InfoHandler(BaseAuthHandler):
         self.json(R.ok().add('version', PUPPYIFY_VERSION))
 
 
+class RepoBranchHandler(BaseAuthHandler):
+
+    def get(self):
+        url = self.get_argument('url')
+        print(f'url={url}')
+        repo = Repo(url)
+        return self.json(R.ok().add('branch', repo.branch()))
+
+
 def make_app():
     return Application([
         ('/', MainHandler),
+        ('/repo/branch', RepoBranchHandler),
         ('/info', InfoHandler),
         ('/(.*)$', StaticFileHandler, {"path": join(dirname(__file__), 'static'), "default_filename": "index.html"})
     ])

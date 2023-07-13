@@ -1,0 +1,18 @@
+version: '3'
+services:
+
+  puppyify:
+    container_name: puppyify
+    image: puppyify/puppyify:0.1.0
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    restart: on-failure
+    ports:
+      - 8888:8888
+    volumes:
+      - ./workspace:/var/puppyify/workspace
+
+networks:
+ default:
+   name: 'puppyify-net'

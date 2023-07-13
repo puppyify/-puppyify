@@ -2,7 +2,7 @@ import os
 import git
 import shutil
 
-WORKSPACE_PATH = '../workspace'
+WORKSPACE_PATH = '../workspace' if not os.getenv("WORKSPACE_PATH") else os.getenv("WORKSPACE_PATH")
 
 
 class Repo():
@@ -27,7 +27,7 @@ class Repo():
             print(f'clone {url}  {branch} to {path}')
         self.repo = repo
 
-    def branchs(self) -> list[str]:
+    def branch(self) -> list[str]:
         """
         列出分支列表
         :return:
@@ -55,7 +55,7 @@ class Repo():
 if __name__ == '__main__':
     # repo = Repo('https://github.com/puppyify/puppyify.git')
     repo = Repo('https://git.psoho.cn/demos/demo-spring-boot.git')
-    print(repo.branchs())
+    print(repo.branch())
 
     print(repo.path)
 
