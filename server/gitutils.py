@@ -10,7 +10,7 @@ class Repo():
     def __init__(self, url, branch='master'):
         name = os.path.splitext(os.path.basename(url))[0]
         path = f'{WORKSPACE_PATH}/{name}'
-        self._path = path
+        self.path = path
         print(f'初始化仓库: url={url}')
         if os.path.exists(path):
             repo = git.Repo(path)
@@ -25,14 +25,14 @@ class Repo():
                 print(f'使用默认分支克隆仓库: url={url}')
                 repo = git.Repo.clone_from(url, path)
             print(f'clone {url}  {branch} to {path}')
-        self._repo = repo
+        self.repo = repo
 
     def branchs(self) -> list[str]:
         """
         列出分支列表
         :return:
         """
-        return [b.name for b in self._repo.remote().refs]
+        return [b.name for b in self.repo.remote().refs]
 
     def checkout(self, branch):
         """
@@ -40,15 +40,15 @@ class Repo():
         :param branch:
         :return:
         """
-        self._repo.git.checkout(branch)
+        self.repo.git.checkout(branch)
 
     def clean(self):
         """
         清空仓库
         :return:
         """
-        if os.path.exists(self._path):
-            shutil.rmtree(self._path)
+        if os.path.exists(self.path):
+            shutil.rmtree(self.path)
         pass
 
 
@@ -56,3 +56,8 @@ if __name__ == '__main__':
     # repo = Repo('https://github.com/puppyify/puppyify.git')
     repo = Repo('https://git.psoho.cn/demos/demo-spring-boot.git')
     print(repo.branchs())
+
+    print(repo.path)
+
+    # 拉取指定分支
+    repo.checkout('origin/develop')
