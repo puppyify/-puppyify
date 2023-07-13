@@ -54,5 +54,5 @@ class Repo():
 
 if __name__ == '__main__':
     # repo = Repo('https://github.com/puppyify/puppyify.git')
-    repo = Repo('https://git.psoho.cn/demos/demo-spring-boot.git', 'mss')
+    repo = Repo('https://git.psoho.cn/demos/demo-spring-boot.git')
     print(repo.branchs())
