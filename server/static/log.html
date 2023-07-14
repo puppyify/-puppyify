@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajax Request</title>
+    <style>
+        #content pre {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+    </div>
+</body>
+
+<script>
+
+    let start_position = 0
+
+    function makeAjaxRequest() {
+        var xhr = new XMLHttpRequest();
+
+        // 处理 Ajax 请求完成后的回调
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    let content = document.getElementById('content')
+
+                    if (xhr.responseText) {
+                        content.innerHTML += `<pre>${xhr.responseText}</pre>`
+                        start_position = xhr.getResponseHeader('logsize')
+                    }
+
+                    if (xhr.getResponseHeader('moredata') === 'true') {
+                        // clearInterval(timer)
+                        setTimeout(makeAjaxRequest, 1000)
+                    }
+
+                } else {
+                    console.log("Error: " + xhr.status);
+                }
+            }
+        };
+
+        // 发送 Ajax 请求
+        xhr.open("GET", "/log?start_position=" + start_position, true);
+        xhr.send();
+    }
+
+    // let timer = setInterval(makeAjaxRequest, 1000)
+    makeAjaxRequest()
+
+</script>
+
+</html>

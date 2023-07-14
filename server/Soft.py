@@ -100,4 +100,14 @@ class Executor():
 if __name__ == '__main__':
     # Soft().install_jdk()
     # print(Soft().install_maven())
+
+    command = ''''
+echo 'xxxxxxxxxxx'
+for i in `seq 1 100`
+do
+    echo `date` $i
+    sleep 1
+done
+    '''
+
     print(Executor().bash())

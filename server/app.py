@@ -90,12 +90,34 @@ class BashHandler(BaseAuthHandler):
         Executor().bash(command)
         return self.json(R.ok())
 
+times=0
+
+class LogHandler(BaseHandler):
+
+    def get(self):
+        start_position = int(self.get_argument("start_position", 0))
+        print('start_position=', start_position)
+        path = f'{C.LOGS_PATH}/output.log'
+        with open(path, 'rb') as f:
+            f.seek(start_position)
+            # 从指定位置开始读取文件内容
+            # file_content = f.read()
+            self.add_header('logsize', os.path.getsize(path))
+
+            # 只有任务还在构建中，才会添加
+            self.add_header('moredata', 'true')
+
+
+            self.write(f.read())
+            # self.finish()
+
 
 def make_app():
     return Application([
         ('/', MainHandler),
         ('/repo/checkout', RepoCheckoutHandler),
         ('/bash', BashHandler),
+        ('/log', LogHandler),
         ('/info', InfoHandler),
         ('/(.*)$', StaticFileHandler, {"path": join(dirname(__file__), 'static'), "default_filename": "index.html"})
     ])
