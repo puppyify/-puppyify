@@ -42,11 +42,22 @@ class Soft():
 
 class Executor():
 
-    def maven(self):
+    def bash(self, command='date'):
 
         # 加载maven配置
         # Shell命令
-        command = 'mvn clean'
+        # command = 'mvn clean'
+
+#         command = '''export JAVA_HOME=/var/puppyify/soft/jdk/jdk1.8.0_362
+# echo "xxxxxxxx"
+# echo "xxxx"
+# mvn clean
+# for i in `seq 1 100`
+# do
+#     echo `date` $i
+#     sleep 1
+# done
+#         '''
 
         # 环境变量PATH
         soft = Soft()
@@ -89,4 +100,4 @@ class Executor():
 if __name__ == '__main__':
     # Soft().install_jdk()
     # print(Soft().install_maven())
-    print(Executor().maven())
+    print(Executor().bash())

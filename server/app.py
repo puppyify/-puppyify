@@ -82,10 +82,12 @@ class RepoCheckoutHandler(BaseAuthHandler):
         return self.json(R.ok().add('branch', repo.branch()).add('info', repo.info()))
 
 
-class MavenHandler(BaseAuthHandler):
+class BashHandler(BaseAuthHandler):
 
     def post(self):
-        Executor().maven()
+        command = self.request.body
+        print('bash command=', command)
+        Executor().bash(command)
         return self.json(R.ok())
 
 
@@ -93,7 +95,7 @@ def make_app():
     return Application([
         ('/', MainHandler),
         ('/repo/checkout', RepoCheckoutHandler),
-        ('/mvn', MavenHandler),
+        ('/bash', BashHandler),
         ('/info', InfoHandler),
         ('/(.*)$', StaticFileHandler, {"path": join(dirname(__file__), 'static'), "default_filename": "index.html"})
     ])
