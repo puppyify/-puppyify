@@ -28,7 +28,10 @@
                     let content = document.getElementById('content')
 
                     if (xhr.responseText) {
-                        content.innerHTML += `<pre>${xhr.responseText}</pre>`
+                        let pre = document.createElement('pre')
+                        pre.innerHTML = xhr.responseText
+                        content.append(pre)
+                        // content.innerHTML += `<pre>${xhr.responseText}</pre>`
                         start_position = xhr.getResponseHeader('logsize')
                     }
 
