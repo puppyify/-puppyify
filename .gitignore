@@ -161,4 +161,3 @@ cython_debug/
 workspace
 soft
 puppyify
-app*.py
